@@ -1,0 +1,15 @@
+{
+  "name": "webppl-linked-list",
+  "version": "0.0.1",
+  "description": "Linked lists for WebPPL.",
+  "webppl": {
+    "headers": ["src/list.js"],
+    "wppl": ["src/list.wppl"],
+    "macros": ["src/macros.sjs"]
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "null-a",
+  "license": "MIT"
+}

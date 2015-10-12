@@ -1,0 +1,80 @@
+'no caching';
+
+var $list = function() {
+  return $fromArray(arguments);
+};
+
+var $length = function(list) {
+  return list === EmptyList ? 0 : 1 + $length($tail(list));
+};
+
+var $reduce = function(f, init, list) {
+  if (list === EmptyList) {
+    return init;
+  } else {
+    return $reduce(f, f($head(list), init), $tail(list));
+  }
+};
+
+var $map = function(f, list) {
+  if (list === EmptyList) {
+    return list;
+  } else {
+    return $cons(f($head(list)), $map(f, $tail(list)));
+  }
+};
+
+var $filter = function(pred, list) {
+  if (list === EmptyList) {
+    return list;
+  } else {
+    var first = $head(list);
+    var rest = $filter(pred, $tail(list));
+    return pred(first) ? $cons(first, rest) : rest;
+  }
+};
+
+var $repeat = function(n, f) {
+  return n === 0 ? EmptyList : $cons(f(), $repeat(n - 1, f));
+};
+
+var $range = function(n) {
+  var f = function(i, list) {
+    return i === n ? list : $cons(i, f(i + 1, list));
+  };
+  return f(0, EmptyList);
+};
+
+var $uniq = function(list) {
+  return $fromArray(_.uniq($toArray(list)));
+};
+
+var $eq = function(l1, l2) {
+  if (l1 === EmptyList && l2 === EmptyList) {
+    return true;
+  } else if (l1 === EmptyList || l2 === EmptyList) {
+    return false;
+  } else {
+    return $head(l1) === $head(l2) && $eq($tail(l1), $tail(l2));
+  }
+};
+
+var $forEach = function(list, f) {
+  $map(function(x) {
+    f(x);
+    return;
+  }, list);
+  return;
+};
+
+var $dataFrame = function(rawCSV) {
+  return $map(function(row) {
+    return _.object(_.zip(rawCSV[0], row));
+  }, $fromArray(rawCSV.slice(1)));
+};
+
+var $subset = function(df, field, value) {
+  return $filter(function(d) {
+    return d[field] === value;
+  }, df);
+};
