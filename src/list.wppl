@@ -8,6 +8,10 @@ var $length = function(list) {
   return list === EmptyList ? 0 : 1 + $length($tail(list));
 };
 
+var $first = $head;
+var $second = function(list) { return $head($tail(list)); };
+var $third = function(list) { return $head($tail($tail(list))); };
+
 var $reduce = function(f, init, list) {
   if (list === EmptyList) {
     return init;
@@ -16,11 +20,23 @@ var $reduce = function(f, init, list) {
   }
 };
 
+var $sum = function(list) {
+  return $reduce(plus, 0, list);
+};
+
 var $map = function(f, list) {
   if (list === EmptyList) {
     return list;
   } else {
     return $cons(f($head(list)), $map(f, $tail(list)));
+  }
+};
+
+var $map2 = function(f, l1, l2) {
+  if (l1 === EmptyList || l2 === EmptyList) {
+    return EmptyList;
+  } else {
+    return f($head(l1), $head(l2)) :: $map2(f, $tail(l1), $tail(l2));
   }
 };
 
@@ -36,6 +52,14 @@ var $filter = function(pred, list) {
 
 var $repeat = function(n, f) {
   return n === 0 ? EmptyList : $cons(f(), $repeat(n - 1, f));
+};
+
+var $zip = function(l1, l2) {
+  if (l1 === EmptyList || l2 === EmptyList) {
+    return EmptyList;
+  } else {
+    return $list($head(l1), $head(l2)) :: $zip($tail(l1), $tail(l2));
+  }
 };
 
 var $range = function(n) {

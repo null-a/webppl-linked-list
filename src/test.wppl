@@ -6,11 +6,17 @@ assert.ok($length($list(1, 2)) === 2);
 assert.ok($length(EmptyList) === 0);
 assert.ok($cons(1, EmptyList), $list(1));
 assert.ok($cons(1, $list(2)), $list(1, 2));
+assert.ok($first($list(1, 2, 3)) === 1);
+assert.ok($second($list(1, 2, 3)) === 2);
+assert.ok($third($list(1, 2, 3)) === 3);
 assert.ok($eq($range(2), $list(0, 1)));
 assert.ok($eq($repeat(2, falseF), $list(false, false)));
 assert.ok($reduce(plus, 0, $range(4)) === 6);
+assert.ok($sum($list(1, 2, 3)) === 6);
 assert.ok($eq($map(function(x) { x + 1 }, $range(3)), $list(1, 2, 3)));
+assert.ok($eq($map2(function(x, y) { x + y }, $list(1, 2, 3), $list(4, 5, 6)), $list(5, 7, 9)));
 assert.ok($eq($filter(isOdd, $range(4)), $list(1, 3)));
+assert.ok($eq($map(function(pair) { $sum(pair) }, $zip($list(1, 2, 3), $list(4, 5, 6))), $list(5, 7, 9)));
 assert.ok($eq($uniq($list(1, 2, 2, 1)), $list(1, 2)));
 
 globalStore.x = 0;
